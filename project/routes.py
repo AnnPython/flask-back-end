@@ -134,14 +134,17 @@ class UpdateUser(Resource):
         """ Update user info"""
         if not current_user.is_admin:
             return {"message": "Access denied"}
-        item_data = User.query.get_or_404(user_id)
-        update_data = request.get_json()
-        item_data.name_user = update_data['name_user']
-        item_data.email = update_data['email']
-        item_data = Users_schema.load(update_data)
-        db.session.add(item_data)
-        db.session.commit()
-        return {"message": "Updated"}
+        else:
+            item_data = User.query.get_or_404(user_id)
+            update_data = request.get_json()
+            if item_data:
+                item_data.name_user = update_data['name_user']
+                item_data.email = update_data['email']
+            else:
+                item_data = Users_schema.load(update_data)
+            db.session.add(item_data)
+            db.session.commit()
+            return {"message": "Updated"}
 
 
 @api.route("/show-users")
@@ -190,14 +193,16 @@ class UpdateProduct(Resource):
         if not current_user.is_admin:
             return {"message": "Access denied"}
         else:
-            product_data = Purchases.query.get_or_404(id_purchase)
+            product_data = Purchases.query.get(id_purchase)
             update_data = request.get_json()
-            product_data.name = update_data['name']
-            product_data.brand = update_data['brand']
-            product_data.season = update_data['season']
-            product_data.price = update_data['price']
-            product_data.amount_purchase = update_data['amount_purchase']
-            product_data = Purchases_schema.load(update_data)
+            if product_data:
+                product_data.name = update_data['name']
+                product_data.brand = update_data['brand']
+                product_data.season = update_data['season']
+                product_data.price = update_data['price']
+                product_data.amount_purchase = update_data['amount_purchase']
+            else:
+                product_data = Purchases_schema.load(update_data)
             db.session.add(product_data)
             db.session.commit()
             return {"message": "Product has been updated"}

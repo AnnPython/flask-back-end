@@ -96,8 +96,6 @@ model_user_login = api.model("user_user", {
     "name_user": fields.String("Enter Name"),
     "email": fields.String("Enter Email"),
     "password": fields.String("Enter Password"),
-    # "is_admin": fields.Boolean(False),
-    # "is_user": fields.Boolean(False)
 })
 
 model_product = api.model("list", {
