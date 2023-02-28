@@ -136,8 +136,6 @@ class UpdateUser(Resource):
             return {"message": "Access denied"}
         item_data = User.query.get_or_404(user_id)
         update_data = request.get_json()
-        # if not item_data:
-        #     return {"message": "There is no such user. Try again"}
         item_data.name_user = update_data['name_user']
         item_data.email = update_data['email']
         item_data = Users_schema.load(update_data)
